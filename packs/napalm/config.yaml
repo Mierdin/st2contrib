@@ -1,0 +1,19 @@
+---
+default: employees
+
+employees:
+  server: "prod-sql"
+  user: "corp-domain\\service-user"
+  password: "service-password"
+
+finance:
+  server: "prod-sql"
+  database: "employees"
+  user: "corp-domain\\finance-user"
+  password: "top-secret-password"
+
+devices:
+- host: 172.28.128.10
+  port: 22
+  user: root
+  pass: Juniper
