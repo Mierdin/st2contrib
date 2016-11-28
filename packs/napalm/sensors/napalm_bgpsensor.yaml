@@ -2,13 +2,33 @@
 class_name: "NapalmBGPSensor"
 entry_point: "napalm_bgpsensor.py"
 description: "Sensor that uses NAPALM to retrieve BGP information from network devices"
+
 trigger_types:
-- name: "bgp_rib_change"
-  description: "An example trigger."
+
+- name: "BgpPeerIncrease"
+  description: "Trigger which occurs when a device's BGP peers increase"
   payload_schema:
     type: "object"
     properties:
-      executed_at:
+      device:
         type: "string"
-        format: "date-time"
-        default: "2014-07-30 05:04:24.578325"
+      oldpeers:
+        type: "integer"
+      newpeers:
+        type: "integer"
+      timestamp:
+        type: "string"
+
+- name: "BgpPeerDecrease"
+  description: "Trigger which occurs when a device's BGP peers decrease"
+  payload_schema:
+    type: "object"
+    properties:
+      device:
+        type: "string"
+      oldpeers:
+        type: "integer"
+      newpeers:
+        type: "integer"
+      timestamp:
+        type: "string"
