@@ -9,17 +9,6 @@ BGP_PEER_DECREASE = 'napalm.BgpPeerDecrease'
 
 
 class NapalmBGPSensor(PollingSensor):
-    """
-    * self.sensor_service
-        - provides utilities like
-            get_logger() for writing to logs.
-            dispatch() for dispatching triggers into the system.
-    * self._config
-        - contains configuration that was specified as
-          config.yaml in the pack.
-    * self._poll_interval
-        - indicates the interval between two successive poll() calls.
-    """
 
     def __init__(self, sensor_service, config=None, poll_interval=5):
         super(NapalmBGPSensor, self).__init__(sensor_service=sensor_service,
@@ -32,26 +21,14 @@ class NapalmBGPSensor(PollingSensor):
         # self._poll_interval = 30
 
     def setup(self):
-        # Setup stuff goes here. For example, you might establish connections
-        # to external system once and reuse it. This is called only once by the system.
-
-        # TODO Figure out how to use this and make a config.yaml
-        #
-
-        # database = database or self.config.get('default')
-        # db_config = self.config.get(database, {})
-        # params = {
-        #     'database': db_config.get('database') or database,
-        #     'server': server or db_config.get('server'),
-        #     'user': user or db_config.get('user'),
-        #     'password': password or db_config.get('password')
-        # }
-
         # Need to get initial BGP RIB, neighbor table, etc. Put into "self".
-        # Then, write some logic within "poll" that checks again, and detects diffs
+        # Then, write some logic within "poll" that checks again, and
+        # detects diffs
         # Detects:
-        # - Diffs in BGP RIB (need to give a threshold like 100s or 1000s or routes different)
-        #   (may want to not only store the previous result, but also the previous 10 or so and do a stddev calc)
+        # - Diffs in BGP RIB (need to give a threshold like 100s or 1000s or
+        #   routes different)
+        #   (may want to not only store the previous result, but also the
+        #    previous 10 or so and do a stddev calc)
 
         # Stores number of BGP neighbors
         # self.bgp_neighbors = 0
@@ -88,8 +65,6 @@ class NapalmBGPSensor(PollingSensor):
 
         # Generate dictionary of device objects per configuration
         # IP Address(key): Device Object(value)
-        #
-        # TODO(mierdin): Yes I know this looks terrible, I will fix it
         self.devices = {
             str(device['host']): get_network_driver(device['driver'])(
                 hostname=str(device['host']),
@@ -102,23 +77,6 @@ class NapalmBGPSensor(PollingSensor):
         }
 
     def poll(self):
-        # This is where the crux of the sensor work goes.
-        # This is called every self._poll_interval.
-        # For example, let's assume you want to query ec2 and get
-        # health information about your instances:
-        #   some_data = aws_client.get('')
-        #   payload = self._to_payload(some_data)
-        #   # _to_triggers is something you'd write to convert the data format you have
-        #   # into a standard python dictionary. This should follow the payload schema
-        #   # registered for the trigger.
-        #   self.sensor_service.dispatch(trigger, payload)
-        #   # You can refer to the trigger as dict
-        #   # { "name": ${trigger_name}, "pack": ${trigger_pack} }
-        #   # or just simply by reference as string.
-        #   # i.e. dispatch(${trigger_pack}.${trigger_name}, payload)
-        #   # E.g.: dispatch('examples.foo_sensor', {'k1': 'stuff', 'k2': 'foo'})
-        #   # trace_tag is a tag you would like to associate with the dispacthed TriggerInstance
-        #   # Typically the trace_tag is unique and a reference to an external event.
 
         for hostname, device_obj in self.devices.items():
 
