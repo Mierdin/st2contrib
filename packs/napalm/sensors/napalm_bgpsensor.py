@@ -44,21 +44,21 @@ class NapalmBGPSensor(PollingSensor):
         napalm_config = self._config
 
         # Assign sane defaults for configuration
-        default_opts = {
-            "opt1": "val1"
-        }
-        for opt_name, opt_val in default_opts.items():
+        # default_opts = {
+        #     "opt1": "val1"
+        # }
+        # for opt_name, opt_val in default_opts.items():
 
-            try:
+        #     try:
 
-                # key exists but is set to nothing
-                if not napalm_config[opt_name]:
-                    napalm_config[opt_name] == default_opts
+        #         # key exists but is set to nothing
+        #         if not napalm_config[opt_name]:
+        #             napalm_config[opt_name] == default_opts
 
-            except KeyError:
+        #     except KeyError:
 
-                # key doesn't exist
-                napalm_config[opt_name] == default_opts
+        #         # key doesn't exist
+        #         napalm_config[opt_name] == default_opts
 
         # Assign options to instance
         self._devices = napalm_config['devices']
@@ -66,8 +66,8 @@ class NapalmBGPSensor(PollingSensor):
         # Generate dictionary of device objects per configuration
         # IP Address(key): Device Object(value)
         self.devices = {
-            str(device['host']): get_network_driver(device['driver'])(
-                hostname=str(device['host']),
+            str(device['hostname']): get_network_driver(device['driver'])(
+                hostname=str(device['hostname']),
                 username=device['username'],
                 password=device['password'],
                 optional_args={
